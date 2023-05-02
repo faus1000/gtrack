@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta
-        name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <script src="main.js"></script> -->
-        <title>Groups Tracking - EO V100</title>
-        <link rel="icon" type="image/x-icon" href="./images/favicon.png">
-        <style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="main.js"></script> -->
+    <title>GVS Linear - EO V100</title>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.png">
+    <style>
         /* width */
         ::-webkit-scrollbar {
             width: 10px;
@@ -17,93 +14,88 @@
         /* Track */
         ::-webkit-scrollbar-track {
             box-shadow: transparent;
-            border-radius: 10px;
+            border-radius: 0px;
+            background: #020d1c;
         }
 
         /* Handle */
         ::-webkit-scrollbar-thumb {
-            background: rgba(131 , 145 , 155, 0.54);
+            background: rgba(131, 145, 155, 0.54);
             border-radius: 10px;
         }
 
         /* Handle on hover */
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(131 , 145 , 155, 0.54);
+            background: rgba(131, 145, 155, 0.54);
         }
+
         body {
             /* background-color: #a1d2ff;*/
             background-color: #020d1c;
-            overflow: hidden;
-        }
-        body:hover {
-            overflow-y: scroll;
+            /*overflow: hidden;*/
+            overflow-y: auto;
             overflow-x: hidden;
         }
+
+        /*body:hover {
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }*/
         #container {
             display: flex;
-            /*  flex-flow: wrap;*/
-            flex-direction: column-reverse;
-            align-items: flex-start;
-            margin-left: 8px;
+            flex-wrap: wrap;
         }
 
         .egroup {
-            width: auto;
-            height: 18px;
-            margin: 1px 0px 1px 0px;
-            /* background-color: green; */
+          /* background-color: rgba(0, 128, 0, 0.35);*/
+          background-color: rgba(219, 41, 41, 0.31);
+            color: #77ff88;
+            font-size: 20px;
+            width: 26px;
+            height: 26px;
+            border-radius: 4px 4px 0px 0px;
             display: flex;
             justify-content: center;
+            justify-items: center;
             align-items: center;
-            color: #46d16a;
-            padding: 0;
-            font-size: 20px;
-            font-family: sans-serif;
+            /*margin: 0px 0px 4px 0px;*/ 
             font-weight: bold;
+            border-bottom: 1px solid rgba(82, 229, 255, 0.24);
         }
-        .etext {
-            color: #4fab4f;
-            padding: 0;
-            font-size: 6px;
-            font-family: sans-serif;
-            font-weight: lighter;
-        }
+ 
         .ogroup {
-            width: auto;
-            height: 18px;
-            margin: 1px 0px 1px 0px;
-            /* background-color: red; */
+            background-color: rgba(219, 41, 41, 0.31);
+            color: #ff8080; 
+            width: 26px;
+            font-size: 20px;
+            height: 26px;
+            border-radius: 4px 4px 0px 0px;
             display: flex;
             justify-content: center;
+            justify-items: center;
             align-items: center;
-            color: #f55959;
-            padding: 0;
-            font-size: 20px;
-            font-family: sans-serif;
+            /*margin: 0px 0px 4px 0px;*/
             font-weight: bold;
+            border-bottom: 1px solid rgba(82, 229, 255, 0.24);
         }
-        .otext {
+
+        
+        .enum1 {
             color: #f34a4a;
             padding: 0;
-            font-size: 6px;
-            font-family: sans-serif;
-            font-weight: lighter;
-        }
-        .enum1 {
-            color: #00a1ff;
-            padding: 0;
             font-size: 20px;
-            font-family: sans-serif;
+            /*font-family: sans-serif;*/
             font-weight: bold;
         }
+
         .onum1 {
-            color: #00a1ff;
+            color: #f34a4a;
             padding: 0;
             font-size: 20px;
-            font-family: sans-serif;
+           /* font-family: sans-serif;*/
             font-weight: bold;
         }
-    </style>
+    </style>1463515.0814.76
 
 </head>
 
@@ -112,17 +104,20 @@
                                                 <div class="linea"></div>
                                                
                                             </div> -->
-    <div id="container"></div>
+    <div id="container">
+         <!--<div class="egroup"></div>
+        <div class="ogroup"></div>-->
+    </div>
 
     <!-- structura interna -->
-    <!-- 
+    <!--   
                     <div class="egroup">
                         <span class="etext">2e</span>
                     </div>
                     <div class="ogroup">
                         <span class="otext">3o</span>
-                    </div>
-                  -->
+                    </div>-->
+
 
     <script>
 
@@ -147,7 +142,7 @@
         var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1089');
 
         ws.onopen = function (evt) {
-            ws.send(JSON.stringify({ticks: symbol}));
+            ws.send(JSON.stringify({ ticks: symbol }));
         };
 
         var addOGroup = false;
@@ -157,6 +152,7 @@
             var data = JSON.parse(msg.data);
 
             var digit = Number(data.tick.quote).toFixed(decimals).slice(-1);
+            var isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1;
 
 
             if (digit % 2 === 0) {
@@ -220,13 +216,13 @@
                 senum1.appendChild(enum1);
 
                 var eGroup = document.createElement("div");
-                var Etext = document.createElement("span");
-                Etext.setAttribute("class", "etext");
-                Etext.appendChild(edigitText);
+                //var Etext = document.createElement("span");
+                // Etext.setAttribute("class", "etext");
+                //Etext.appendChild(edigitText);
 
 
                 eGroup.setAttribute('class', 'egroup');
-                eGroup.appendChild(Etext);
+                // eGroup.appendChild(Etext);
                 eGroup.appendChild(senum1);
 
                 var container = document.getElementById("container");
@@ -236,31 +232,34 @@
             }
 
             function AñadirDigitsE(digito, Ec) {
- 
-               var counterItem = document.getElementsByClassName("egroup"); 
-               
-              counterItem[counterItem.length - 1].innerHTML =  Ec +"e"; 
-              
-               
+
+                var counterItem = document.getElementsByClassName("egroup");
+
+                //counterItem[counterItem.length - 1].innerHTML =  Ec +"e";
+                counterItem[counterItem.length - 1].style.color = "#0bc722";
+                 counterItem[counterItem.length - 1].style.backgroundColor = "rgba(0, 128, 0, 0.35)";
+                counterItem[counterItem.length - 1].innerHTML = Ec;
+
+
 
             }
 
             function AñadirGruposO(digito, Oc,) { // var odigitText = document.createTextNode(Oc);
-                var odigitText = document.createTextNode("🔴");
+                //  var odigitText = document.createTextNode("🔴");
 
                 var sonum1 = document.createElement("span");
                 var onum1 = document.createTextNode(Oc);
                 sonum1.setAttribute("class", "onum1");
                 sonum1.appendChild(onum1);
 
-                var Otext = document.createElement("span");
-                Otext.setAttribute("class", "otext");
-                Otext.appendChild(odigitText);
+                //var Otext = document.createElement("span");
+                //Otext.setAttribute("class", "otext");
+                //Otext.appendChild(odigitText);
 
 
                 var oGroup = document.createElement("div");
                 oGroup.setAttribute('class', 'ogroup');
-                oGroup.appendChild(Otext);
+                //oGroup.appendChild(Otext);
                 oGroup.appendChild(sonum1);
 
 
@@ -269,15 +268,30 @@
 
             }
 
-            function AñadirDigitsO(digito, Oc) { 
+            function AñadirDigitsO(digito, Oc) {
                 var counterItem = document.getElementsByClassName("ogroup");
-   
-               counterItem[counterItem.length - 1].innerHTML = Oc +"o";  
-                
+
+                //counterItem[counterItem.length - 1].innerHTML = Oc +"o";  
+                counterItem[counterItem.length - 1].style.color = "#0bc722";
+                 counterItem[counterItem.length - 1].style.backgroundColor = "rgba(0, 128, 0, 0.35)";
+
+                counterItem[counterItem.length - 1].innerHTML = Oc;
+
+            }
+
+            if (isScrolledToBottom) {
+                //  out.scrollLeft = out.scrollWidth - out.clientWidth; 
+                out.scrollTop = out.scrollHeight + out.clientHeight;
+            } else {
+
             }
 
 
+
         }
+
     </script>
 
-</body></html>
+</body>
+
+</html>
