@@ -194,7 +194,7 @@
                 if (addOGroup) {
                     addOGroup = false;
                 } else {
-                    AñadirDigitsO(digit, oCounter,);
+                    AñadirDigitsO(digit, oCounter);
 
                 }
 
@@ -254,13 +254,9 @@
 
                 var oGroup = document.createElement("div");
                 oGroup.setAttribute('class', 'ogroup');
-                //oGroup.appendChild(Otext);
                 oGroup.appendChild(sonum1);
                 oGroup.style.color = "#FF5050"; 
                 oGroup.style.backgroundColor = "#8E282E";
-               // oGroup.style.backgroundColor = "#6E0F0F";
- // oGroup.style.color = "#c24d07";
-                //oGroup.style.backgroundColor = "#cba93a";
 
                 var container = document.getElementById("container");
                 container.appendChild(oGroup);
@@ -269,17 +265,14 @@
 
             function AñadirDigitsO(digito, Oc) {
                 var counterItem = document.getElementsByClassName("ogroup");
-
-                //counterItem[counterItem.length - 1].innerHTML = Oc +"o";  
                 counterItem[counterItem.length - 1].style.color = "#f34a4a";
-                 counterItem[counterItem.length - 1].style.backgroundColor = "rgba(219, 41, 41, 0.31)";
+                counterItem[counterItem.length - 1].style.backgroundColor = "rgba(219, 41, 41, 0.31)";
 
                 counterItem[counterItem.length - 1].innerHTML = Oc;
 
             }
 
             if (isScrolledToBottom) {
-                //  out.scrollLeft = out.scrollWidth - out.clientWidth; 
                 out.scrollTop = out.scrollHeight + out.clientHeight;
             } else {
 
